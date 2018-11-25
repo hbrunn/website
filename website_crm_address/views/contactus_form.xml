@@ -3,28 +3,28 @@
     <data>
         <template id="contactus_form" inherit_id="website_crm.contactus_form">
             <xpath expr="//div[./div/input[@name='email_from']]" position="after">
-                <div t-attf-class="form-group form-field o_website_form_required_custom">
+                <div t-attf-class="form-group form-field o_website_form_required">
                     <label class="col-md-3 col-sm-4 control-label" for="street">Street</label>
                     <div class="col-md-7 col-sm-8">
                         <input type="text" class="form-control o_website_form_input" name="street" t-att-value="request.params.get('street')" required=""/>
                     </div>
                 </div>
-                <div t-attf-class="form-group form-field o_website_form_required_custom">
+                <div t-attf-class="form-group form-field o_website_form_required">
                     <label class="col-md-3 col-sm-4 control-label" for="zip">Zip</label>
                     <div class="col-md-7 col-sm-8">
                         <input type="text" class="form-control o_website_form_input" name="zip" t-att-value="request.params.get('zip')" required=""/>
                     </div>
                 </div>
-                <div t-attf-class="form-group form-field o_website_form_required_custom">
+                <div t-attf-class="form-group form-field o_website_form_required">
                     <label class="col-md-3 col-sm-4 control-label" for="city">City</label>
                     <div class="col-md-7 col-sm-8">
-                        <input type="text" class="form-control" name="city" t-att-value="request.params.get('city')"/>
+                        <input type="text" class="form-control o_website_form_input" name="city" t-att-value="request.params.get('city')" required=""/>
                     </div>
                 </div>
-                <div t-attf-class="form-group form-field o_website_form_required_custom">
+                <div t-attf-class="form-group form-field o_website_form_required">
                     <label class="col-md-3 col-sm-4 control-label" for="country_id">Country</label>
                     <div class="col-md-7 col-sm-8">
-                        <select name="country_id" class="form-control">
+                        <select name="country_id" class="form-control o_website_form_input" required="">
                             <option value="">Country...</option>
                             <t t-foreach="request.env['res.country'].search([])" t-as="country">
                                 <option t-att-value="country.id" t-att-selected="country.id == (int(request.params.get('country_id', website.user_id.company_id.country_id.id)))"><t t-esc="country.name"/></option>

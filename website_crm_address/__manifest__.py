@@ -12,6 +12,7 @@
         'website_crm',
     ],
     "data": [
+        "data/ir_model_fields.xml",
         "views/contactus_form.xml",
     ],
     "installable": True,
