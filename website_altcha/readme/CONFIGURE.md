@@ -1,0 +1,1 @@
+The module works out of the box, keep in mind however that the mechanism used only works with javascript enabled and when Odoo is served via HTTPS. Both are structural requirements and can't be circumvented.
