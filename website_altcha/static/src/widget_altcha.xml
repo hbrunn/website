@@ -3,6 +3,7 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0) -->
 <template>
     <t t-name="widget.altcha">
+        <!-- TODO: editor saves generated html -->
         <altcha-widget t-att="widgetAttributes" />
     </t>
 </template>

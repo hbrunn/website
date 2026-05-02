@@ -67,7 +67,6 @@ Known issues / Roadmap
 ======================
 
 -  support arbitrary website forms via the frontend editor
--  support internationalization
 
 Bug Tracker
 ===========

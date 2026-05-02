@@ -1,2 +1,1 @@
 - support arbitrary website forms via the frontend editor
-- support internationalization
