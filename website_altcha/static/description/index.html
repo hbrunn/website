@@ -399,6 +399,11 @@ Only for development or testing purpose, do not use in production.
 <p>The module works out of the box, keep in mind however that the mechanism
 used only works with javascript enabled and when Odoo is served via
 HTTPS. Both are structural requirements and can’t be circumvented.</p>
+<p>If you want to add ALTCHA verification to other forms than the contact
+form, you need to set the flag <tt class="docutils literal">Require captcha (ALTCHA)</tt> on the model
+in the <tt class="docutils literal">Website Forms</tt> tab to enforce verification on the server side,
+and take care that there’s an element with class <tt class="docutils literal">.o_widget_altcha</tt> on
+the form(s) you use.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>

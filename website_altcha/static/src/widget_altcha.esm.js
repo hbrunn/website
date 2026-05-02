@@ -8,18 +8,29 @@ import {qweb} from "web.core";
 export const Widget = publicWidget.Widget.extend({
     assetLibs: ["website_altcha.assets"],
     selector: ".o_widget_altcha",
+    events: {
+        "load altcha-widget": "onLoadAltchaWidget",
+    },
 
     async start() {
         const widget_html = qweb.render("widget.altcha", {
             widgetAttributes: this.widgetAttributes(),
         });
         this.$el.append(widget_html);
+        this.$("altcha-widget").on("load", this.proxy("onLoadAltchaWidget"));
+        this.$("altcha-widget").on("verified", this.proxy("onVerifiedAltchaWidget"));
     },
     widgetAttributes() {
         return {
             challenge: "/website_altcha/challenge",
             name: "website_altcha",
         };
+    },
+    onLoadAltchaWidget() {
+        this.$("input[type=checkbox]").addClass("o_website_form_input");
+    },
+    onVerifiedAltchaWidget() {
+        this.$el.parents(".o_has_error").removeClass("o_has_error");
     },
 });
 

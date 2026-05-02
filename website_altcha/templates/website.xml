@@ -9,7 +9,7 @@
         customize_show="True"
     >
         <xpath expr="//div[hasclass('s_website_form_submit')]" position="before">
-            <div class="mb-0 py-2">
+            <div class="mb-0 py-2 form-field">
                 <div class="row s_col_no_resize s_col_no_bgcolor">
                     <div
                         style="width: 200px"

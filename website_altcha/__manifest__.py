@@ -18,8 +18,10 @@
         "website",
     ],
     "data": [
+        "data/ir_model.xml",
         "templates/website.xml",
         "templates/widget_altcha.xml",
+        "views/ir_model.xml",
     ],
     "demo": [],
     "assets": {
