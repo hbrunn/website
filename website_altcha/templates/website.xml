@@ -8,6 +8,7 @@
         name="Use captcha"
         customize_show="True"
     >
+        <!--TODO with this override it's not possible to edit the form any more -->
         <xpath expr="//div[hasclass('s_website_form_submit')]" position="before">
             <div class="mb-0 py-2 form-field">
                 <div class="row s_col_no_resize s_col_no_bgcolor">

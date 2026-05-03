@@ -8,6 +8,7 @@ import {qweb} from "web.core";
 export const Widget = publicWidget.Widget.extend({
     assetLibs: ["website_altcha.assets"],
     selector: ".o_widget_altcha",
+    disabledInEditableMode: false,
     events: {
         "load altcha-widget": "onLoadAltchaWidget",
     },
@@ -31,6 +32,10 @@ export const Widget = publicWidget.Widget.extend({
     },
     onVerifiedAltchaWidget() {
         this.$el.parents(".o_has_error").removeClass("o_has_error");
+    },
+    destroy() {
+        this.$el.empty();
+        return this._super.apply(this, arguments);
     },
 });
 
