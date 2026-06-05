@@ -6,9 +6,6 @@ on:
     branches:
       - "18.0*"
   push:
-    branches:
-      - "18.0"
-      - "18.0-ocabot-*"
 
 jobs:
   pre-commit:
@@ -47,3 +44,125 @@ jobs:
               echo "$newfiles"
               exit 1
           fi
+      - name: Check that vendored libs have declared their origin and match
+        shell: python
+        run: |
+          import subprocess
+          import hashlib
+          from pathlib import Path
+          from logging import getLogger
+
+          _logger = getLogger("check-vendor-libs")
+
+
+          def main(checklist, warn_mode=False):
+              warn_mode = False
+
+              for to_check in checklist:
+                  for path in Path(".").glob(to_check):
+                      check_entries(path)
+
+
+          def check_entries(path: Path):
+              """
+              find pairs of $file, .$file.vendor-origin and run the checker on them
+              error for all files without vendor origin or vendor origins without file
+              """
+              result = True
+              entries = {}
+
+              for entry in path.iterdir():
+                  if entry.name.startswith(".") and entry.suffix == ".vendor-origin":
+                      if entry in entries:
+                          entries[entry] = entries.pop(entry)
+                      else:
+                          entries[entry] = NotFound()
+                  else:
+                      origin = path / (f".{entry.name}.vendor-origin")
+                      if origin in entries:
+                          del entries[origin]
+                          entries[origin] = entry
+                      else:
+                          entries[NotFound(origin)] = entry
+
+              for origin, vendorfile in entries.items():
+                  if isinstance(origin, NotFound):
+                      if vendorfile.is_dir():
+                          result &= check_entries(vendorfile)
+                      else:
+                          result = False
+                          _logger.error(f"{vendorfile} has not declared origin")
+                  elif isinstance(vendorfile, NotFound):
+                      result = False
+                      _logger.error(f"{origin} doesnt refer to anything")
+                  else:
+                      origin_lines = list(
+                          filter(
+                              lambda x: not x.startswith("#"),
+                              map(str.strip, origin.read_text().splitlines()),
+                          )
+                      )
+                      if len(origin_lines) != 1 or " " not in origin_lines[0]:
+                          _logger.error(f"{origin} is malformed")
+                          return False
+
+                      git_url, revision = origin_lines[0].split(" ", 1)
+                      subdir = None
+                      if " " in revision:
+                          revision, subdir = revision.split(" ", 1)
+                      result &= compare(vendorfile, git_url, revision, subdir)
+
+              return result
+
+
+          def compare(vendorfile: Path, git_url: str, revision: str, subdir: str | None):
+              """
+              clone from origin and compare vendorfile with version in origin
+              error if file is not found or doesn't match
+              """
+              git_dir = (
+                  Path.home()
+                  / ".cache"
+                  / "check-vendor-libs"
+                  / hashlib.sha256(f"{git_url}@{revision}".encode("utf8")).hexdigest()
+              )
+
+              def git(*args):
+                  return subprocess.run(("git", "-C", git_dir) + args, capture_output=True)
+
+              if not git_dir.exists():
+                  git_dir.mkdir(parents=True, exist_ok=True)
+                  git("init")
+                  git("remote", "add", "origin", git_url)
+                  git("fetch", "origin", revision)
+                  git("checkout", "FETCH_HEAD")
+
+              git_file = git_dir / Path(subdir) / vendorfile.name
+
+              if not git_file.exists():
+                  _logger.error(f"{vendorfile} does not exist in origin {git_url}@{revision}")
+                  return False
+
+              with (
+                  vendorfile.open("rb") as vendorfile_handle,
+                  git_file.open("rb") as git_file_handle,
+              ):
+                  vendorfile_digest = hashlib.file_digest(vendorfile_handle, "sha256").digest()
+                  git_file_digest = hashlib.file_digest(git_file_handle, "sha256").digest()
+                  if vendorfile_digest != git_file_digest:
+                      _logger.error(f"{vendorfile} differs from version in {git_url}@{revision}")
+                      subprocess.run(["diff", vendorfile, git_file])
+                      return False
+
+              return True
+
+
+          class NotFound(Path):
+              pass
+
+
+          def git(*args):
+              return subprocess.run(["git"] + args)
+
+
+          main(["*/static/lib"])
