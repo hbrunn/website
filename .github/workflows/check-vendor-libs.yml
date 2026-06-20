@@ -1,0 +1,16 @@
+on: [push]
+
+jobs:
+  check_vendor_libs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check vendor libs (--no-fail)
+        uses: ./.github/actions/check-vendor-libs
+        with:
+          directories: "*/static/lib"
+          no_fail: true
+      - name: Check vendor libs
+        uses: ./.github/actions/check-vendor-libs
+        with:
+          directories: "*/static/lib"
