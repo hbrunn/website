@@ -61,7 +61,9 @@ After you've supplied the `vendor-libs.json` file, you can activate the action i
 - name: Check vendor libs
   uses: oca/check-vendor-libs@v1
   with:
-    directories: "*/static/lib"
+    directories: "external"
+    # in case you only want the action to warn, set the below
+    # no_fail: true
 ```
 
 Local testing
