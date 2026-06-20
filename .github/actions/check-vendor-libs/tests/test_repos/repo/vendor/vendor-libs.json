@@ -1,0 +1,20 @@
+{
+    "vendorfile": {
+        "purl": "pkg:github/vendor/vendorlib@version"
+    },
+    "vendorfile-subdir1": {
+        "purl": "pkg:github/vendor/vendorlib@version#subdir1"
+    },
+    "vendored_subdir/vendorfile-subdir1": {
+        "purl": "pkg:github/vendor/vendorlib@version#subdir1"
+    },
+    "vendored_subdir": {
+        "purl": "pkg:github/vendor/vendorlib@version#subdir1"
+    },
+    "vendorlib_subdir1": {
+        "purl": "pkg:github/vendor/vendorlib@version#subdir1"
+    },
+    "vendorlib_subdir1/subdir1-1": {
+        "purl": "pkg:npm/vendorlib@version#subdir1/subdir1-1"
+    }
+}

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "check_vendor_libs"
+requires-python = ">= 3.8"
+dynamic = ["version"]
+description = "Enforce origin identity of vendored code"
+readme = "README.rst"
+
+[project.scripts]
+check-vendor-libs = "check_vendor_libs:__main__"
+
+[tool.setuptools.dynamic]
+version = {attr = "check_vendor_libs.__version__"}
