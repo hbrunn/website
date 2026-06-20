@@ -7,7 +7,7 @@ name = "check_vendor_libs"
 requires-python = ">= 3.8"
 dynamic = ["version"]
 description = "Enforce origin identity of vendored code"
-readme = "README.rst"
+readme = "README.md"
 
 [project.scripts]
 check-vendor-libs = "check_vendor_libs:__main__"
