@@ -1,0 +1,12 @@
+{
+    "altcha-l10n.js": {
+        "purl": "pkg:github/altcha-org/altcha@v3.0.2#dist/i18n",
+        "vendor-name": "all.js"
+    },
+    "altcha.js": {
+        "purl": "pkg:github/altcha-org/altcha@v3.0.2#dist/main"
+    },
+    "altcha.css": {
+        "purl": "pkg:github/altcha-org/altcha@v3.0.2#dist/external"
+    }
+}

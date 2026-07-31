@@ -1,4 +1,3 @@
-/* @odoo-module */
 const i18n$Y = {
   ariaLinkLabel: "زور Altcha.org",
   enterCode: "أدخل الرمز",
