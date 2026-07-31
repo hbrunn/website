@@ -5,7 +5,7 @@ on:
     branches:
       - "18.0*"
     paths:
-      - "*/static/lib"
+      - "*/static/lib/**"
   push:
     branches:
       - "18.0"
