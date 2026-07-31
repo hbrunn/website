@@ -1,0 +1,26 @@
+name: Verify vendored javascript code
+
+on:
+  pull_request:
+    branches:
+      - "18.0*"
+    paths:
+      - "*/static/lib"
+  push:
+    branches:
+      - "18.0"
+      - "18.0-ocabot-*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check_vendor_libs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check vendor libs
+        uses: hbrunn/check-vendor-libs@v1
+        with:
+          directories: "*/static/lib"
