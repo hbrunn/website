@@ -11,6 +11,7 @@ var object_prototype = Object.prototype;
 var array_prototype = Array.prototype;
 var get_prototype_of = Object.getPrototypeOf;
 var is_extensible = Object.isExtensible;
+divergence
 const noop = () => {
 };
 function run_all(arr) {
